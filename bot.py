@@ -1,5 +1,6 @@
 import discord
 import youtube_dl
+from youtube_search import YoutubeSearch as YS
 
 
 def read_token():
@@ -25,6 +26,15 @@ async def on_message(message):
 
     if message.content.startswith('>p'):
         voice = message.author.voice
+        request = " ".join(message.content.split('>p ')[1:])
+        print(request)
+
+        result = YS(request, max_results=1).to_dict()[0]
+        url = 'http://www.youtube.com' + result['url_suffix']
+        print(url)
+
+        # url = a
+
         if voice is not None:
             vc = voice.channel
             print(vc.name)
