@@ -13,6 +13,22 @@ token = read_token()
 
 client = discord.Client()
 
+YTDL_OPTIONS = {
+        'format': 'bestaudio/best',
+        'extractaudio': True,
+        'audioformat': 'mp3',
+        'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
+        'restrictfilenames': True,
+        'noplaylist': True,
+        'nocheckcertificate': True,
+        'ignoreerrors': False,
+        'logtostderr': False,
+        'quiet': True,
+        'no_warnings': True,
+        'default_search': 'auto',
+        'source_address': '0.0.0.0',
+    }
+
 
 @client.event
 async def on_ready():
@@ -28,6 +44,8 @@ async def on_message(message):
         voice = message.author.voice
         request = " ".join(message.content.split('>p ')[1:])
         print(request)
+
+        ytdl = youtube_dl.YoutubeDL(YTDL_OPTIONS)
 
         result = YS(request, max_results=1).to_dict()[0]
         url = 'http://www.youtube.com' + result['url_suffix']
